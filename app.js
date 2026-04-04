@@ -4,7 +4,7 @@ const COLORS = [
   '#F0997B', '#85B7EB', '#ED93B1', '#97C459', '#EF9F27'
 ];
 
-let items = ['항목 1', '항목 2', '항목 3', '항목 4'];
+let items = ['1', '2', '3', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'];
 let spinning = false;
 let currentAngle = 0;
 
@@ -183,8 +183,8 @@ spinBtn.addEventListener('click', () => {
 });
 
 document.getElementById('add-btn').addEventListener('click', () => {
-  if (items.length >= 15) {
-    alert('최대 15개까지 추가할 수 있어요.');
+  if (items.length >= 50) {
+    alert('최대 49개까지 추가할 수 있어요.');
     return;
   }
   items.push('항목 ' + (items.length + 1));
