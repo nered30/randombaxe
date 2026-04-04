@@ -4,7 +4,7 @@ const COLORS = [
   '#F0997B', '#85B7EB', '#ED93B1', '#97C459', '#EF9F27'
 ];
 
-let items = ['1', '2', '3', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'];
+let items = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'];
 let spinning = false;
 let currentAngle = 0;
 
@@ -187,7 +187,7 @@ document.getElementById('add-btn').addEventListener('click', () => {
     alert('최대 49개까지 추가할 수 있어요.');
     return;
   }
-  items.push('항목 ' + (items.length + 1));
+  items.push((items.length + 1));
   renderList();
 });
 
