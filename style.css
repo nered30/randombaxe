@@ -226,3 +226,19 @@ h1 {
   80%  { opacity: 1; }
   100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
 }
+
+#clear-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  background: #fff;
+  border: 1px solid #f5c0c0;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #c00;
+  transition: background 0.15s;
+}
+
+#clear-btn:hover {
+  background: #fff0f0;
+}
