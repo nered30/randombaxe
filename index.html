@@ -7,17 +7,6 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <div id="confetti-container"></div>
-
-  <div id="winner-overlay">
-    <div id="winner-card">
-      <div id="winner-label">당첨!</div>
-      <div id="winner-text"></div>
-      <div id="winner-hint">클릭하여 닫기</div>
-    </div>
-  </div>
-
   <div id="app">
     <h1>랜덤 룰렛</h1>
     <div id="canvas-wrap">
@@ -25,14 +14,13 @@
       <canvas id="roulette" width="300" height="300"></canvas>
     </div>
     <button id="spin-btn">돌리기</button>
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-      <div class="section-label" style="margin-bottom:0;">항목 관리</div>
+    <div class="list-header">
+      <span class="section-label">항목 관리</span>
       <button id="clear-btn">전체 삭제</button>
     </div>
     <div id="items-list"></div>
     <button id="add-btn">+ 항목 추가</button>
   </div>
-
   <script src="app.js"></script>
 </body>
 </html>
