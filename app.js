@@ -4,7 +4,7 @@ const COLORS = [
   '#F0997B', '#85B7EB', '#ED93B1', '#97C459', '#EF9F27'
 ];
 
-let items = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'];
+let items = ['항목 1', '항목 2', '항목 3', '항목 4'];
 let spinning = false;
 let currentAngle = 0;
 
@@ -12,6 +12,8 @@ const canvas = document.getElementById('roulette');
 const ctx = canvas.getContext('2d');
 const itemsList = document.getElementById('items-list');
 const spinBtn = document.getElementById('spin-btn');
+const addBtn = document.getElementById('add-btn');
+const clearBtn = document.getElementById('clear-btn');
 
 function drawWheel(angle) {
   const cx = 150, cy = 150, r = 145;
@@ -75,15 +77,10 @@ function renderList() {
     const del = document.createElement('button');
     del.className = 'del-btn';
     del.textContent = '−';
-    del.title = '삭제';
     del.addEventListener('click', () => {
-      if (items.length <= 2) {
-        alert('항목은 최소 2개 필요해요.');
-        return;
-      }
+      if (items.length <= 2) { alert('항목은 최소 2개 필요해요.'); return; }
       items.splice(i, 1);
       renderList();
-      drawWheel(currentAngle);
     });
 
     row.appendChild(dot);
@@ -108,8 +105,6 @@ spinBtn.addEventListener('click', () => {
   const slice = (Math.PI * 2) / n;
   const winIndex = Math.floor(Math.random() * n);
 
-  // 포인터는 12시 방향 = -π/2
-  // 목표: currentAngle + winIndex*slice + slice/2 = -π/2 (mod 2π)
   const winCenter = winIndex * slice + slice / 2;
   const extraSpins = (6 + Math.floor(Math.random() * 4)) * Math.PI * 2;
   const targetFinalAngle = -Math.PI / 2 - winCenter;
@@ -143,20 +138,16 @@ spinBtn.addEventListener('click', () => {
   requestAnimationFrame(animate);
 });
 
-document.getElementById('add-btn').addEventListener('click', () => {
-  if (items.length >= 15) {
-    alert('최대 15개까지 추가할 수 있어요.');
-    return;
-  }
+addBtn.addEventListener('click', () => {
+  if (items.length >= 15) { alert('최대 15개까지 추가할 수 있어요.'); return; }
   items.push('항목 ' + (items.length + 1));
   renderList();
 });
 
-renderList();
-
-document.getElementById('clear-btn').addEventListener('click', () => {
+clearBtn.addEventListener('click', () => {
   if (!confirm('모든 항목을 삭제할까요?')) return;
   items = [];
   renderList();
-  drawWheel(currentAngle);
 });
+
+renderList();
