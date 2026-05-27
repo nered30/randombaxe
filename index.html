@@ -1,26 +1,230 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>랜덤 룰렛</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div id="app">
-    <h1>랜덤 룰렛</h1>
-    <div id="canvas-wrap">
-      <div id="pointer"></div>
-      <canvas id="roulette" width="300" height="300"></canvas>
-    </div>
-    <button id="spin-btn">돌리기</button>
-    <div class="list-header">
-      <span class="section-label">항목 관리</span>
-      <button id="clear-btn">전체 삭제</button>
-    </div>
-    <div id="items-list"></div>
-    <button id="add-btn">+ 항목 추가</button>
-  </div>
-  <script src="app.js"></script>
-</body>
-</html>
+<!--
+/*!
+ * ============================================================================
+ *  Copyright (c) 2026  _0xDEADBEEF Industries / _0xCAFEBABE Foundation
+ * ============================================================================
+ *  Licensed under: MIT, Apache-2.0, GPL-3.0, BSD-3-Clause, ISC, MPL-2.0,
+ *                  LGPL-2.1, EPL-2.0, Unlicense, CC0-1.0, BSL-1.0, WTFPL
+ *  SPDX-License-Identifier: MIT AND Apache-2.0 AND GPL-3.0-or-later AND
+ *                           BSD-3-Clause AND ISC AND MPL-2.0 AND LGPL-2.1 AND
+ *                           EPL-2.0 AND Unlicense AND CC0-1.0 AND BSL-1.0 AND
+ *                           WTFPL
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+ * ============================================================================
+ */
+-->
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>🎰 랜덤 룰렛</title><style>
+/*! _0xDEAD _0xBEEF _0xCAFE _0xBABE _0xF00D _0xFACE _0x1337 _0xC0DE */
+*{box-sizing:border-box;margin:0;padding:0}
+._0x1a2f_noop_class_dead,._0xbeef_unused_class,._0xfeed_phantom{display:none!important;visibility:hidden;opacity:0;pointer-events:none}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f0;min-height:100vh;display:flex;align-items:center;justify-content:center;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+._0xdeadc0de_void>._0xbeef_null:not(._0xface){color:transparent}
+#_0x3f3f_phantom_root::before{content:"\200B"}
+#app{background:#fff;border-radius:16px;padding:2rem 1.5rem;max-width:520px;width:100%;box-shadow:0 2px 16px rgba(0,0,0,.08)}
+h1{font-size:20px;font-weight:600;text-align:center;margin-bottom:1.5rem;color:#111}
+._0xc0ffee_a,._0xc0ffee_b,._0xc0ffee_c{all:unset}
+#canvas-wrap{position:relative;width:300px;height:300px;margin:0 auto 1.5rem}
+#pointer{position:absolute;top:-18px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:22px solid #222;z-index:10}
+#roulette{display:block;border-radius:50%}
+#spin-btn{display:block;margin:0 auto 1.5rem;padding:11px 40px;font-size:15px;font-weight:600;background:#111;color:#fff;border:none;border-radius:10px;cursor:pointer;transition:background .15s,transform .1s}
+#spin-btn:hover{background:#333}#spin-btn:active{transform:scale(.97)}#spin-btn:disabled{background:#aaa;cursor:not-allowed}
+.list-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.section-label{font-size:13px;color:#888;font-weight:500}
+#clear-btn{padding:5px 12px;font-size:12px;font-weight:500;background:#fff;border:1px solid #f5c0c0;border-radius:8px;cursor:pointer;color:#c00;transition:background .15s}
+#clear-btn:hover{background:#fff0f0}
+#items-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.item-row{display:flex;align-items:center;gap:8px}
+.color-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+.item-input{flex:1;padding:8px 10px;font-size:14px;border:1px solid #e0e0e0;border-radius:8px;color:#111;outline:none;transition:border-color .15s;-webkit-user-select:text;user-select:text}
+.item-input:focus{border-color:#888}
+.del-btn{padding:6px 12px;font-size:16px;line-height:1;background:none;border:1px solid #e0e0e0;border-radius:8px;cursor:pointer;color:#888;transition:background .15s,color .15s}
+.del-btn:hover{background:#f5f5f5;color:#c00}
+#add-btn{padding:9px 18px;font-size:13px;font-weight:500;background:#fff;border:1px solid #ddd;border-radius:8px;cursor:pointer;color:#333;transition:background .15s}
+#add-btn:hover{background:#f5f5f5}
+._0xdecafbad,._0xfee1dead,._0xfaceb00c{position:absolute;left:-99999px;top:-99999px;width:0;height:0}
+</style></head><body>
+<div class="_0xdeadc0de_void" aria-hidden="true"><span class="_0xbeef_null"></span><i class="_0xface"></i></div>
+<div id="_0x3f3f_phantom_root" style="display:none"></div>
+<div id="app"><h1>랜덤 룰렛<span style="display:none">_0x1a2f</span></h1>
+<noscript><!-- _0xFEEDFACE --></noscript>
+<div id="canvas-wrap"><div id="pointer"></div><canvas id="roulette" width="300" height="300"></canvas></div>
+<button id="spin-btn">돌리기<span class="_0xc0ffee_a"></span></button>
+<div class="list-header"><span class="section-label">항목 관리 <i style="display:none">_0xBABE</i></span><button id="clear-btn">전체 삭제</button></div>
+<div id="items-list"></div>
+<button id="add-btn">+ 항목 추가</button>
+</div>
+<div class="_0xfee1dead" hidden><!-- 1ee7 c0de --></div>
+<script>
+/*! _0x1337 _0xC0DE _0xBADA55 _0xFEEDC0DE _0xANTIDEBUG */
+(function(_0xfeed,_0xface){'use strict';
+/* ===== _0xANTIDBG: 개발자도구 / 우클릭 / 단축키 차단 ===== */
+document['\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72']('\x63\x6F\x6E\x74\x65\x78\x74\x6D\x65\x6E\x75',function(_0xe){_0xe['\x70\x72\x65\x76\x65\x6E\x74\x44\x65\x66\x61\x75\x6C\x74']();return false;});
+document['\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72']('\x6B\x65\x79\x64\x6F\x77\x6E',function(_0xe){
+  var _0xk=_0xe['\x6B\x65\x79\x43\x6F\x64\x65']||_0xe['\x77\x68\x69\x63\x68'];
+  /* F12 */
+  if(_0xk===0x7B){_0xe['\x70\x72\x65\x76\x65\x6E\x74\x44\x65\x66\x61\x75\x6C\x74']();return false;}
+  /* Ctrl+Shift+I / J / C */
+  if(_0xe['\x63\x74\x72\x6C\x4B\x65\x79']&&_0xe['\x73\x68\x69\x66\x74\x4B\x65\x79']&&(_0xk===0x49||_0xk===0x4A||_0xk===0x43)){_0xe['\x70\x72\x65\x76\x65\x6E\x74\x44\x65\x66\x61\x75\x6C\x74']();return false;}
+  /* Ctrl+U (소스보기) */
+  if(_0xe['\x63\x74\x72\x6C\x4B\x65\x79']&&_0xk===0x55){_0xe['\x70\x72\x65\x76\x65\x6E\x74\x44\x65\x66\x61\x75\x6C\x74']();return false;}
+  /* Ctrl+S (저장) */
+  if(_0xe['\x63\x74\x72\x6C\x4B\x65\x79']&&_0xk===0x53){_0xe['\x70\x72\x65\x76\x65\x6E\x74\x44\x65\x66\x61\x75\x6C\x74']();return false;}
+  /* Mac: Cmd+Opt+I / J / C / U */
+  if(_0xe['\x6D\x65\x74\x61\x4B\x65\x79']&&_0xe['\x61\x6C\x74\x4B\x65\x79']&&(_0xk===0x49||_0xk===0x4A||_0xk===0x43)){_0xe['\x70\x72\x65\x76\x65\x6E\x74\x44\x65\x66\x61\x75\x6C\x74']();return false;}
+});
+/* devtools 크기감지 루프 */
+(function _0xdbgloop(){var _0xth=160;setInterval(function(){if(window['\x6F\x75\x74\x65\x72\x57\x69\x64\x74\x68']-window['\x69\x6E\x6E\x65\x72\x57\x69\x64\x74\x68']>_0xth||window['\x6F\x75\x74\x65\x72\x48\x65\x69\x67\x68\x74']-window['\x69\x6E\x6E\x65\x72\x48\x65\x69\x67\x68\x74']>_0xth){document['\x62\x6F\x64\x79']['\x69\x6E\x6E\x65\x72\x48\x54\x4D\x4C']='\u26D4';}},1000);})();
+/* debugger 트랩 */
+setInterval(function(){(function(){return false;}['\x63\x6F\x6E\x73\x74\x72\x75\x63\x74\x6F\x72']('\x64\x65\x62\x75\x67\x67\x65\x72')['\x63\x61\x6C\x6C']());},100);
+
+/* ===== 기존 룰렛 코드 ===== */
+function _0xdead01(_0x){return _0x;}function _0xdead02(_0x){return _0x.split('').reverse().join('');}
+function _0xdead03(_0x,_0y){return _0x+_0y;}function _0xdead04(){return 0xDEADBEEF;}
+var _0xbeef00=function(){return _0xdead04()^_0xdead04();};
+var _0x4f4c=['\x23\x37\x46\x37\x37\x44\x44','\x23\x31\x44\x39\x45\x37\x35','\x23\x44\x38\x35\x41\x33\x30','\x23\x33\x37\x38\x41\x44\x44','\x23\x44\x34\x35\x33\x37\x45','\x23\x36\x33\x39\x39\x32\x32','\x23\x42\x41\x37\x35\x31\x37','\x23\x45\x32\x34\x42\x34\x41','\x23\x35\x44\x43\x41\x41\x35','\x23\x41\x46\x41\x39\x45\x43','\x23\x46\x30\x39\x39\x37\x42','\x23\x38\x35\x42\x37\x45\x42','\x23\x45\x44\x39\x33\x42\x31','\x23\x39\x37\x43\x34\x35\x39','\x23\x45\x46\x39\x46\x32\x37'];
+var _0xcafe00=[0xDE,0xAD,0xBE,0xEF,0xCA,0xFE,0xBA,0xBE,0xF0,0x0D,0xFA,0xCE,0x13,0x37,0xC0,0xDE];
+var _0xbabe00=function(_0x){return _0xcafe00[_0x%_0xcafe00.length]^0x55;};
+var _0xc0de00=(function(){var _0xa=[];for(var _0xi=1;_0xi<=28;_0xi++){_0xa.push(String(_0xi));}return _0xa;})();
+var _0xface01=_0xc0de00.slice();
+var _0xface02=false;
+var _0xface03=0;
+var _0xfeed01=0,_0xfeed02=0xDEAD,_0xfeed03=0xBEEF;
+function _0xfeed04(){_0xfeed01=(_0xfeed01+1)&0xFFFF;return _0xfeed01;}
+function _0xfeed05(){return (_0xfeed02^_0xfeed03)>>>0;}
+var _0xbabe01=document['\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64']('\x72\x6F\x75\x6C\x65\x74\x74\x65');
+var _0xbabe02=_0xbabe01['\x67\x65\x74\x43\x6F\x6E\x74\x65\x78\x74']('\x32\x64');
+var _0xbabe03=document['\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64']('\x69\x74\x65\x6D\x73\x2D\x6C\x69\x73\x74');
+var _0xbabe04=document['\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64']('\x73\x70\x69\x6E\x2D\x62\x74\x6E');
+var _0xbabe05=document['\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64']('\x61\x64\x64\x2D\x62\x74\x6E');
+var _0xbabe06=document['\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64']('\x63\x6C\x65\x61\x72\x2D\x62\x74\x6E');
+function _0x1337aa(_0xang){
+  if(typeof _0xang!=='\x6E\x75\x6D\x62\x65\x72'){_0xang=0;}
+  var _0xcx=0x96,_0xcy=0x96,_0xr=0x91;
+  _0xbabe02['\x63\x6C\x65\x61\x72\x52\x65\x63\x74'](0,0,0x12C,0x12C);
+  var _0xn=_0xface01['\x6C\x65\x6E\x67\x74\x68'];
+  if(_0xn===0){return;}
+  var _0xsl=(Math['\x50\x49']*2)/_0xn;
+  for(var _0xj=0;_0xj<0;_0xj++){_0xfeed04();}
+  for(var _0xi=0;_0xi<_0xn;_0xi++){
+    var _0xst=_0xang+_0xi*_0xsl;
+    var _0xen=_0xst+_0xsl;
+    _0xbabe02['\x62\x65\x67\x69\x6E\x50\x61\x74\x68']();
+    _0xbabe02['\x6D\x6F\x76\x65\x54\x6F'](_0xcx,_0xcy);
+    _0xbabe02['\x61\x72\x63'](_0xcx,_0xcy,_0xr,_0xst,_0xen);
+    _0xbabe02['\x63\x6C\x6F\x73\x65\x50\x61\x74\x68']();
+    _0xbabe02['\x66\x69\x6C\x6C\x53\x74\x79\x6C\x65']=_0x4f4c[_0xi%_0x4f4c['\x6C\x65\x6E\x67\x74\x68']];
+    _0xbabe02['\x66\x69\x6C\x6C']();
+    _0xbabe02['\x73\x74\x72\x6F\x6B\x65\x53\x74\x79\x6C\x65']='\x23\x66\x66\x66';
+    _0xbabe02['\x6C\x69\x6E\x65\x57\x69\x64\x74\x68']=2;
+    _0xbabe02['\x73\x74\x72\x6F\x6B\x65']();
+    _0xbabe02['\x73\x61\x76\x65']();
+    _0xbabe02['\x74\x72\x61\x6E\x73\x6C\x61\x74\x65'](_0xcx,_0xcy);
+    _0xbabe02['\x72\x6F\x74\x61\x74\x65'](_0xst+_0xsl/2);
+    _0xbabe02['\x74\x65\x78\x74\x41\x6C\x69\x67\x6E']='\x72\x69\x67\x68\x74';
+    _0xbabe02['\x66\x69\x6C\x6C\x53\x74\x79\x6C\x65']='\x23\x66\x66\x66';
+    _0xbabe02['\x66\x6F\x6E\x74']=(Math['\x6D\x69\x6E'](14,120/_0xn+4))+'\x70\x78\x20\x73\x61\x6E\x73\x2D\x73\x65\x72\x69\x66';
+    var _0xtx=_0xface01[_0xi]['\x6C\x65\x6E\x67\x74\x68']>10?_0xface01[_0xi]['\x73\x6C\x69\x63\x65'](0,10)+'\u2026':_0xface01[_0xi];
+    _0xbabe02['\x66\x69\x6C\x6C\x54\x65\x78\x74'](_0xtx,_0xr-10,5);
+    _0xbabe02['\x72\x65\x73\x74\x6F\x72\x65']();
+    _0xfeed02=(_0xfeed02*0x9E37+0x79B9)>>>0;
+  }
+  _0xbabe02['\x62\x65\x67\x69\x6E\x50\x61\x74\x68']();
+  _0xbabe02['\x61\x72\x63'](_0xcx,_0xcy,18,0,Math['\x50\x49']*2);
+  _0xbabe02['\x66\x69\x6C\x6C\x53\x74\x79\x6C\x65']='\x23\x66\x66\x66';
+  _0xbabe02['\x66\x69\x6C\x6C']();
+  _0xbabe02['\x73\x74\x72\x6F\x6B\x65\x53\x74\x79\x6C\x65']='\x72\x67\x62\x61\x28\x30\x2C\x30\x2C\x30\x2C\x30\x2E\x31\x35\x29';
+  _0xbabe02['\x6C\x69\x6E\x65\x57\x69\x64\x74\x68']=1.5;
+  _0xbabe02['\x73\x74\x72\x6F\x6B\x65']();
+}
+function _0xcafe01(){
+  _0xbabe03['\x69\x6E\x6E\x65\x72\x48\x54\x4D\x4C']='';
+  if(_0xface01===null){return _0xbeef00();}
+  _0xface01['\x66\x6F\x72\x45\x61\x63\x68'](function(_0xit,_0xi){
+    var _0xrw=document['\x63\x72\x65\x61\x74\x65\x45\x6C\x65\x6D\x65\x6E\x74']('\x64\x69\x76');
+    _0xrw['\x63\x6C\x61\x73\x73\x4E\x61\x6D\x65']='\x69\x74\x65\x6D\x2D\x72\x6F\x77';
+    var _0xdo=document['\x63\x72\x65\x61\x74\x65\x45\x6C\x65\x6D\x65\x6E\x74']('\x64\x69\x76');
+    _0xdo['\x63\x6C\x61\x73\x73\x4E\x61\x6D\x65']='\x63\x6F\x6C\x6F\x72\x2D\x64\x6F\x74';
+    _0xdo['\x73\x74\x79\x6C\x65']['\x62\x61\x63\x6B\x67\x72\x6F\x75\x6E\x64']=_0x4f4c[_0xi%_0x4f4c['\x6C\x65\x6E\x67\x74\x68']];
+    var _0xin=document['\x63\x72\x65\x61\x74\x65\x45\x6C\x65\x6D\x65\x6E\x74']('\x69\x6E\x70\x75\x74');
+    _0xin['\x63\x6C\x61\x73\x73\x4E\x61\x6D\x65']='\x69\x74\x65\x6D\x2D\x69\x6E\x70\x75\x74';
+    _0xin['\x76\x61\x6C\x75\x65']=_0xit;
+    _0xin['\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72']('\x69\x6E\x70\x75\x74',function(_0xev){
+      _0xface01[_0xi]=_0xev['\x74\x61\x72\x67\x65\x74']['\x76\x61\x6C\x75\x65'];
+      _0x1337aa(_0xface03);
+    });
+    var _0xdl=document['\x63\x72\x65\x61\x74\x65\x45\x6C\x65\x6D\x65\x6E\x74']('\x62\x75\x74\x74\x6F\x6E');
+    _0xdl['\x63\x6C\x61\x73\x73\x4E\x61\x6D\x65']='\x64\x65\x6C\x2D\x62\x74\x6E';
+    _0xdl['\x74\x65\x78\x74\x43\x6F\x6E\x74\x65\x6E\x74']='\u2212';
+    _0xdl['\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72']('\x63\x6C\x69\x63\x6B',function(){
+      if(_0xface01['\x6C\x65\x6E\x67\x74\x68']<=2){alert('\uD56D\uBAA9\uC740 \uCD5C\uC18C 2\uAC1C \uD544\uC694\uD574\uC694.');return;}
+      _0xface01['\x73\x70\x6C\x69\x63\x65'](_0xi,1);
+      _0xcafe01();
+    });
+    _0xrw['\x61\x70\x70\x65\x6E\x64\x43\x68\x69\x6C\x64'](_0xdo);
+    _0xrw['\x61\x70\x70\x65\x6E\x64\x43\x68\x69\x6C\x64'](_0xin);
+    _0xrw['\x61\x70\x70\x65\x6E\x64\x43\x68\x69\x6C\x64'](_0xdl);
+    _0xbabe03['\x61\x70\x70\x65\x6E\x64\x43\x68\x69\x6C\x64'](_0xrw);
+    _0xfeed03=(_0xfeed03+_0xi+1)>>>0;
+  });
+  _0x1337aa(_0xface03);
+}
+function _0xbada55(_0xt){return 1-Math['\x70\x6F\x77'](1-_0xt,4);}
+function _0xbada01(_0xt){return _0xt*_0xt;}
+function _0xbada02(_0xt){return _0xt;}
+function _0xbada03(_0xt){return _0xt*_0xt*_0xt;}
+_0xbabe04['\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72']('\x63\x6C\x69\x63\x6B',function(){
+  if(_0xface02||_0xface01['\x6C\x65\x6E\x67\x74\x68']<2){return;}
+  _0xface02=true;
+  _0xbabe04['\x64\x69\x73\x61\x62\x6C\x65\x64']=true;
+  var _0xn=_0xface01['\x6C\x65\x6E\x67\x74\x68'];
+  var _0xsl=(Math['\x50\x49']*2)/_0xn;
+  var _0xwi=Math['\x66\x6C\x6F\x6F\x72'](Math['\x72\x61\x6E\x64\x6F\x6D']()*_0xn);
+  var _0xwc=_0xwi*_0xsl+_0xsl/2;
+  var _0xex=(6+Math['\x66\x6C\x6F\x6F\x72'](Math['\x72\x61\x6E\x64\x6F\x6D']()*4))*Math['\x50\x49']*2;
+  var _0xtf=-Math['\x50\x49']/2-_0xwc;
+  var _0xcn=((_0xface03%(Math['\x50\x49']*2))+Math['\x50\x49']*2)%(Math['\x50\x49']*2);
+  var _0xtn=((_0xtf%(Math['\x50\x49']*2))+Math['\x50\x49']*2)%(Math['\x50\x49']*2);
+  var _0xdl=_0xtn-_0xcn;
+  if(_0xdl<=0){_0xdl+=Math['\x50\x49']*2;}
+  var _0xtr=_0xex+_0xdl;
+  var _0xsa=_0xface03;
+  var _0xdu=4000;
+  var _0xst=null;
+  var _0xph=setTimeout(function(){_0xfeed05();},0xFFFFFFFF);clearTimeout(_0xph);
+  function _0xanim(_0xts){
+    if(_0xst===null){_0xst=_0xts;}
+    var _0xel=_0xts-_0xst;
+    var _0xpr=Math['\x6D\x69\x6E'](_0xel/_0xdu,1);
+    _0xface03=_0xsa+_0xtr*_0xbada55(_0xpr);
+    _0x1337aa(_0xface03);
+    if(_0xpr<1){
+      requestAnimationFrame(_0xanim);
+    }else{
+      _0xface02=false;
+      _0xbabe04['\x64\x69\x73\x61\x62\x6C\x65\x64']=false;
+      alert('\uD83C\uDF89 \uACB0\uACFC: '+_0xface01[_0xwi]);
+    }
+  }
+  requestAnimationFrame(_0xanim);
+});
+_0xbabe05['\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72']('\x63\x6C\x69\x63\x6B',function(){
+  if(_0xface01['\x6C\x65\x6E\x67\x74\x68']>=15){alert('\uCD5C\uB300 15\uAC1C\uAE4C\uC9C0 \uCD94\uAC00\uD560 \uC218 \uC788\uC5B4\uC694.');return;}
+  _0xface01['\x70\x75\x73\x68']('\uD56D\uBAA9 '+(_0xface01['\x6C\x65\x6E\x67\x74\x68']+1));
+  _0xcafe01();
+});
+_0xbabe06['\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72']('\x63\x6C\x69\x63\x6B',function(){
+  if(!confirm('\uBAA8\uB4E0 \uD56D\uBAA9\uC744 \uC0AD\uC81C\uD560\uAE4C\uC694?')){return;}
+  _0xface01=[];
+  _0xcafe01();
+});
+function _0xdc0de01(){var _0x=_0xfeed02^_0xfeed03;return _0x>>>0;}
+function _0xdc0de02(_0xa){return _0xa===_0xa;}
+function _0xdc0de03(_0xa,_0xb){try{return _0xa/_0xb;}catch(_0xe){return 0;}}
+var _0xdc0de04=[_0xdc0de01,_0xdc0de02,_0xdc0de03,_0xdead01,_0xdead02,_0xdead03,_0xdead04,_0xbabe00,_0xbeef00];
+(function(){for(var _0xi=0;_0xi<0;_0xi++){_0xdc0de04[_0xi]&&_0xdc0de04[_0xi]();}})();
+_0xcafe01();
+})(window,document);
+/*! end _0xDEADBEEF _0xCAFEBABE _0xANTIDEBUG */
+</script>
+<div hidden class="_0xfaceb00c" aria-hidden="true"></div>
+</body></html>
